@@ -9,9 +9,6 @@ pipeline {
       timeout(time: 30, unit: 'MINUTES')
       disableConcurrentBuilds()
   }
-  parameters {
-      booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
-  }
   stages {
       stage('Build') {
         steps {
@@ -20,7 +17,6 @@ pipeline {
               echo 'Hello Build'
               sleep 10
               env
-              echo "Hello ${PERSON}"
             """
           }
         }
@@ -33,17 +29,8 @@ pipeline {
         }
       }
       stage('Deploy'){
-        input {
-          message "Should we continue?"
-          ok "Yes, We Should"
-          submitter "alice,bob"
-          parameters {
-            string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
-          }
-        }
         steps {
-          script{
-            echo "Hello, ${PERSON}, nice to meet you."                    
+          script{                   
             echo 'Deploying'
           }          
         }
