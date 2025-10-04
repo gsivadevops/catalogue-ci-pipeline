@@ -44,7 +44,7 @@ pipeline {
               }
           }
       }  
-
+      // SonarQube scanner to analyse your source code
       stage('Sonar Scan') {
           environment {
               scannerHome = tool 'sonar-7.2'
@@ -62,9 +62,11 @@ pipeline {
       stage("Quality Gate") {
           steps {
               timeout(time: 1, unit: 'HOURS') {
-              waitForQualityGate abortPipeline: true }
+                  waitForQualityGate abortPipeline: true 
+              }
           }
       }   
+      // To build the ECR image and pushing the image
       stage('Docker Build') {
           steps {
               script {
@@ -78,6 +80,7 @@ pipeline {
               }
           }
       }
+      // Deploying the code
       stage('Trigger Deploy') {
           when {
             expression { params.deploy}
