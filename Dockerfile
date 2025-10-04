@@ -9,6 +9,7 @@ RUN npm install
 FROM node:20-alpine3.20
 # creating system user (non root user)
 RUN addgroup -S roboshop && adduser -S roboshop -G roboshop
+RUN apk update && apk add --no-cache --upgrade musl openssl
 # environment (systemd) setup
 ENV MONGO="true" \
     MONGO_URL="mongodb://mongodb:27017/catalogue"
